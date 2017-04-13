@@ -18,10 +18,13 @@ You can verify that the engine can be loaded using:
         [ available ]
 
 ## Testing the engine
-A quick and easy test goes like this:
+A quick and easy test goes like this, where the resultant digest values should be identical:
 
     $ echo "Hello, Alice and Bob!" | openssl dgst -engine `pwd`/bin/wssha256engine.so -sha256
-
+      (stdin)= 67bafe3f31a01641bb043233a57f7d90f68052db3d11ef96f76174cb660d5102
+    
+    $ echo "Hello, Alice and Bob!" | openssl dgst -sha256
+      (stdin)= 67bafe3f31a01641bb043233a57f7d90f68052db3d11ef96f76174cb660d5102
 A more advanced test can be conducted like this: 
     
     $ make test
