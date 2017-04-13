@@ -16,7 +16,14 @@ You can verify that the engine can be loaded using:
     (/home/brett/sha256engine/bin/wssha256engine.so) A test engine for the ws sha256 hardware encryption module, on the Xilinx ZYNQ7000
     Loaded: (wssha256engine) A test engine for the ws sha256 hardware encryption module, on the Xilinx ZYNQ7000
         [ available ]
-     
+
+## Testing the engine
 A quick and easy test goes like this:
 
     $ echo "Hello, Alice and Bob!" | openssl dgst -engine `pwd`/bin/wssha256engine.so -sha256
+
+A more advanced test can be conducted like this: 
+    
+    $ make test
+    $ bin/wssha256engine_test
+    
