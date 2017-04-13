@@ -21,7 +21,6 @@ INC := -I include
 $(OUTDIR)/$(TARGET): $(OBJECTS)
 	@echo "Linking..."
 	@mkdir -p $(OUTDIR)
-#	@echo " $(CC) -o $(OUTDIR)/$(TARGET) $(LIB) $^"; 
 	$(CC) -shared -o $(OUTDIR)/$(TARGET) $(LIB) $^
 	@echo "Completed"
 	@echo "------------------------------------------------------ "
@@ -31,7 +30,6 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@echo "------------------------------------------------------ "
 	@echo "Building..."
 	@mkdir -p $(dir $@)
-	@echo " $(CC) $(CFLAGS) $(INC) -c -o $@ $<"; 
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
 # Clean
