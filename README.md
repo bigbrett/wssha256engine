@@ -12,7 +12,7 @@ A minimal openSSL engine for offloading sha256 functions to a hardware accelerat
 
 You can verify that the engine can be loaded using: 
 
-    $ openssl engine -t -c `pwd`/bin/wssha256.so
+    $ openssl engine -t -c `pwd`/bin/wssha256engine.so
     (/home/brett/wssha256engine/bin/wssha256engine.so) A test engine for the ws sha256 hardware encryption module, on the Xilinx ZYNQ7000
     Loaded: (wssha256engine) A test engine for the ws sha256 hardware encryption module, on the Xilinx ZYNQ7000
         [ available ]
