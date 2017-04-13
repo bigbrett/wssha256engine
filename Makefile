@@ -5,9 +5,7 @@ BUILDDIR := build
 LIBDIR := lib
 TESTDIR := test
 OUTDIR := bin
-TARGET := wssha256.so
-#LIBRARY := libSpatialAwareness.a #uncomment once we want to build libraries
-#FRAMEWORK := SpatialAwareness.framework
+TARGET := wssha256engine.so
  
 SRCEXT := c
 SOURCES := $(shell find $(SRCDIR) -type f -name "*.$(SRCEXT)")
