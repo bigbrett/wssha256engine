@@ -1,9 +1,10 @@
 # wssha256engine
-A minimal openSSL engine for offloading sha256 functions to a hardware accelerator
+A minimal openSSL engine for offloading sha256 functions to a hardware accelerator in FPGA logic
 
 ## Prerequisites
-1. Ensure you have openSSL using the command `$ openssl version`. If you have lower than version 1.0.2, you must upgrade to this version.
-2. Check out the repository using git `$ git clone https://github.com/bigbrett/wssha256engine.git` 
+1. You are running linux on the Xilinx ZYNQ-7000 development board, with the necessary design instantiated in PL [link to final design goes here]
+2. Ensure you have openSSL using the command `$ openssl version`. If you have lower than version 1.0.2, you must upgrade to this version.
+3. Check out the repository using git `$ git clone https://github.com/bigbrett/wssha256engine.git` 
 
 ## Building the engine
 
