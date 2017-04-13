@@ -3,9 +3,8 @@ A minimal openSSL engine for offloading sha256 functions to a hardware accelerat
 
 ## Prerequisites
 1. Ensure you have openSSL using the command `$ openssl version`. If you have lower than version 1.0.2, you must upgrade to this version.
-2. Check out the repository using git `$ git clone https://github.com/bigbrett/wssha256engine.git` and then
+2. Check out the repository using git `$ git clone https://github.com/bigbrett/wssha256engine.git` 
 
-`$ git clone https://github.com/bigbrett/wssha256engine.git`
 ## Building the engine
 
     $ cd wssha256engine.git
