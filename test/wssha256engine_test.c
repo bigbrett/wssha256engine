@@ -46,15 +46,40 @@ int main(int argc, const char* argv[])
 	ENGINE_ctrl_cmd_string(eng, "SO_PATH", engine_so_path, 0);//"/home/brett/Thesis/openssl_ws/wssha256engine/bin/libwssha256engine.so", 0);
 	ENGINE_ctrl_cmd_string(eng, "ID", "wssha256engine", 0);
 	ENGINE_ctrl_cmd_string(eng, "LOAD", NULL, 0);
-
 	if (eng == NULL)
 	{
-		fprintf(stderr,"ERROR, COULD NOT LOAD TEST ENGINE\n");
+		fprintf(stderr,"*TEST: ERROR, COULD NOT LOAD TEST ENGINE\n");
 		exit(1);
 	}
 	printf("Engine Loaded...\n");
 
+  // initialize engine 
 	int status = ENGINE_init(eng); 
-	printf("Successfuly initialized engine [%s]\n\tinit result = %d\n",ENGINE_get_name(eng), status);
+	printf("*TEST: Successfuly initialized engine [%s]\n\tinit result = %d\n",ENGINE_get_name(eng), status);
+
+
+	// declare string to hash, and the digest 
+	char *str = "Hello, World!";
+	unsigned char digest[32]; 
+	int str_len = strlen(str);
+	unsigned int digest_size = -1; 
+
+	// create sha256 context 
+	EVP_MD_CTX *evp_ctx;
+	evp_ctx = EVP_MD_CTX_create();
+
+	// Compute a message digest indirectly, through the high-level API
+	status = EVP_DigestInit_ex(evp_ctx, EVP_sha256(), eng);
+	printf("*TEST: Digest INIT %d\n",status);
+	status = EVP_DigestUpdate(evp_ctx, (unsigned char*)str, str_len);
+	printf("*TEST: Digest Update %d\n",status);
+	status = EVP_DigestFinal(evp_ctx, digest, &digest_size);
+	printf("*TEST: Digest Final %d Digest size:%d\n",status,digest_size);
+
+	for(int i= 0; i< digest_size; i++) 
+		printf("%x", digest[i]);
+	printf("\n");
+	EVP_MD_CTX_destroy(evp_ctx); 
+
 	return 0; 
 }
