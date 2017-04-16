@@ -14,21 +14,22 @@ A minimal openSSL engine for offloading sha256 functions to a hardware accelerat
 
 You can verify that the engine can be loaded using: 
 
-    $ openssl engine -t -c `pwd`/bin/wssha256engine.so
-    (/home/brett/wssha256engine/bin/wssha256engine.so) A test engine for the ws sha256 hardware encryption module, on the Xilinx ZYNQ7000
+    $ openssl engine -t -c `pwd`/bin/libwssha256engine.so
+    (/home/brett/wssha256engine/bin/libwssha256engine.so) A test engine for the ws sha256 hardware encryption module, on the Xilinx ZYNQ7000
     Loaded: (wssha256engine) A test engine for the ws sha256 hardware encryption module, on the Xilinx ZYNQ7000
         [ available ]
 
 ## Testing the engine
 A quick and easy test goes like this, where the resultant digest values should be identical:
 
-    $ echo "Hello, Alice and Bob!" | openssl dgst -engine `pwd`/bin/wssha256engine.so -sha256
+    $ echo "Hello, Alice and Bob!" | openssl dgst -engine `pwd`/bin/libwssha256engine.so -sha256
       (stdin)= 67bafe3f31a01641bb043233a57f7d90f68052db3d11ef96f76174cb660d5102
     
     $ echo "Hello, Alice and Bob!" | openssl dgst -sha256
       (stdin)= 67bafe3f31a01641bb043233a57f7d90f68052db3d11ef96f76174cb660d5102
-A more advanced test can be conducted like this: 
+
+A more advanced test can be conducted like this (see test/wssha256engine_test.c for implementation): 
     
     $ make test
-    $ bin/wssha256engine_test
+    $ bin/test
     

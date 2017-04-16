@@ -3,9 +3,10 @@ CC := gcc
 SRCDIR := src
 BUILDDIR := build
 LIBDIR := lib
+LIBPREFIX := lib
 TESTDIR := test
 OUTDIR := bin
-TARGET := wssha256engine.so
+TARGET := $(LIBPREFIX)wssha256engine.so
  
 SRCEXT := c
 SOURCES := $(shell find $(SRCDIR) -type f -name "*.$(SRCEXT)")
@@ -37,7 +38,7 @@ clean:
 #	@cd $(TESTDIR); make clean
 
 # Tests
-#test:
-#	@cd $(TESTDIR); make
+test:
+	@cd $(TESTDIR); make
 
 .PHONY: clean test 

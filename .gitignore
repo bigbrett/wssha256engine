@@ -1,3 +1,6 @@
+# GENERIC C PROJECT IGNORES
+# ###########################
+
 # Prerequisites
 *.d
 
@@ -50,3 +53,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+
+# CUSTOM IGNORES
+# ##########################3
+bin/
+build/
