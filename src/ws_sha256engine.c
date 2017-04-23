@@ -9,7 +9,7 @@
 
 static const char *engine_id = "wssha256";
 static const char *engine_name = "A test engine for the ws sha256 hardware encryption module, on the Xilinx ZYNQ7000";
-static int wssha256_digest_ids[] = {NID_sha256};
+static int wssha256_digest_ids[] = {NID_sha256,0};
 
 //// Create our own message digest hash SHA256 declaration matching that of the generic 
 //// SHA256 message digest structure (struct env_md_st) defined in openssl/include/evp.h
