@@ -48,14 +48,19 @@ int main(int argc, const char* argv[])
 	ENGINE_ctrl_cmd_string(eng, "LOAD", NULL, 0);
 	if (eng == NULL)
 	{
-		fprintf(stderr,"*TEST: ERROR, COULD NOT LOAD TEST ENGINE\n");
+		fprintf(stderr,"*TEST: ERROR, COULD NOT LOAD ENGINE DYNAMIC\n");
 		exit(1);
 	}
 	printf("Engine Loaded...\n");
 
   // initialize engine 
 	int status = ENGINE_init(eng); 
-	printf("*TEST: Successfuly initialized engine [%s]\n\tinit result = %d\n",ENGINE_get_name(eng), status);
+  if (status == 0)
+  {
+		fprintf(stderr,"*TEST: ERROR, COULD NOT INITIALIZE ENGINE\n");
+		exit(1);
+  }
+    printf("*TEST: Successfuly initialized engine [%s]\n\tinit result = %d\n",ENGINE_get_name(eng), status);
 
 
 	// declare string to hash, and the digest 
