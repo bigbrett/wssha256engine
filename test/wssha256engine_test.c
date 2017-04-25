@@ -2,10 +2,19 @@
 #include <stdio.h>
 #include <string.h>
 
-const char* engine_so_path = "/home/brett/Thesis/openssl_ws/wssha256engine/bin/libwssha256engine.so";
+//const char* engine_so_path = "/home/brett/Thesis/openssl_ws/wssha256engine/bin/libwssha256engine.so";
+//const char* engine_so_path = "./bin/libwssha256engine.so";
 
 int main(int argc, const char* argv[])
 {
+  if (argc != 2)
+  {
+    fprintf(stderr, "*TEST: ERROR! IMPROPER ARGUMENTS TO MAIN");
+    exit(1);
+  }
+  // store path to engine shared object
+  const char* engine_so_path = argv[1];
+
 	OpenSSL_add_all_algorithms();
 	ERR_load_crypto_strings();
 

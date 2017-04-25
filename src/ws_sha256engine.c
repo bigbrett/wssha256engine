@@ -3,6 +3,9 @@
 #include <string.h>
 #include <stdlib.h>
 
+// Turn off this annoying warning that we don't care about 
+#pragma GCC diagnostic ignored "-Wsizeof-pointer-memaccess"
+
 #define FAIL 0
 #define SUCCESS 1
 #define DIGEST_SIZE_BYTES 32
