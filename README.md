@@ -9,7 +9,7 @@ A minimal openSSL engine for offloading sha256 functions to a hardware accelerat
 
 ## Building the engine
 
-    $ cd wssha256engine.git
+    $ cd wssha256engine
     $ make
 
 You can verify that the engine can be loaded using: 
@@ -30,8 +30,8 @@ A quick and easy test goes like this, where the resultant digest values should b
     $ echo "Hello, Alice and Bob!" | openssl dgst -sha256
       (stdin)= 67bafe3f31a01641bb043233a57f7d90f68052db3d11ef96f76174cb660d5102
 
-A more advanced test can be conducted like this (see test/wssha256engine_test.c for implementation): 
+A more advanced test can be conducted like this from the top level directory (see test/wssha256engine_test.c for implementation): 
     
     $ make test
-    $ bin/test
+    $ source test/runtest.sh
     
