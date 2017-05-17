@@ -20,33 +20,34 @@ CFLAGS := -Wall -fPIC
 LIB := `pkg-config --libs openssl` -L$(LIBDIR)
 INC := -I include 
 
-
 all: $(OUTDIR)/$(TARGET) $(OUTDIR)/$(TESTTARGET)
+#all: $(OUTDIR)/$(TESTTARGET) $(OUTDIR)/$(TARGET) 
 
 # Link object files into a shared library
 $(OUTDIR)/$(TARGET): $(OBJECTS)
 	@echo "Linking..."
-	#@mkdir -p $(OUTDIR)
+	@mkdir -p $(OUTDIR)
 	$(CC) -shared -o $(OUTDIR)/$(TARGET) $(LIB) $^
 	@echo "Completed"
 	@echo "------------------------------------------------------ "
 
 # Compile source into object files 
-$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT) | $(OUTDIR)
+$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT) 
 	@echo "------------------------------------------------------ "
 	@echo "Building source files..."
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
-# Make object directory
-$(OUTDIR): 
-	@echo building output directory
-	mkdir $(OUTDIR)
+## Make object directory
+#$(OUTDIR): 
+#	@echo building output directory
+#	mkdir $(OUTDIR)
 
 # Tests
-$(OUTDIR)/$(TESTTARGET): $(TESTSOURCES)
+$(OUTDIR)/$(TESTTARGET): $(OUTDIR)/$(TARGET) #$(TESTSOURCES)
 	@echo "Building Tests..."
-	$(CC) $(TESTCFLAGS) $^ $(INC) $(LIB) -o $(OUTDIR)/$(TESTTARGET)
+	#$(CC) $(TESTCFLAGS) $^ $(INC) $(LIB) -o $(OUTDIR)/$(TESTTARGET)
+	$(CC) $(TESTCFLAGS) $(TESTDIR)/wssha256engine_test.c $(INC) $(LIB) -o $(OUTDIR)/$(TESTTARGET)
 	@echo "Test Build Completed"
 	@echo "------------------------------------------------------ "
 
