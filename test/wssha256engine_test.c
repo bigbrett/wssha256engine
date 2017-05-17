@@ -52,7 +52,7 @@ int main(int argc, const char* argv[])
 	// 		ENGINE_ctrl_cmd_string(e, "ID", "foo", 0);
 	// 		ENGINE_ctrl_cmd_string(e, "LOAD", NULL, 0);
 	// 		ENGINE_ctrl_cmd_string(e, "CMD_FOO", "some input data", 0);
-	ENGINE_ctrl_cmd_string(eng, "SO_PATH", engine_so_path, 0);//"/home/brett/Thesis/openssl_ws/wssha256engine/bin/libwssha256engine.so", 0);
+	ENGINE_ctrl_cmd_string(eng, "SO_PATH", engine_so_path, 0);
 	ENGINE_ctrl_cmd_string(eng, "ID", "wssha256engine", 0);
 	ENGINE_ctrl_cmd_string(eng, "LOAD", NULL, 0);
 	if (eng == NULL)
