@@ -26,17 +26,22 @@ all: $(OUTDIR)/$(TARGET) $(OUTDIR)/$(TESTTARGET)
 # Link object files into a shared library
 $(OUTDIR)/$(TARGET): $(OBJECTS)
 	@echo "Linking..."
-	@mkdir -p $(OUTDIR)
+	#@mkdir -p $(OUTDIR)
 	$(CC) -shared -o $(OUTDIR)/$(TARGET) $(LIB) $^
 	@echo "Completed"
 	@echo "------------------------------------------------------ "
 
 # Compile source into object files 
-$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
+$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT) | $(OUTDIR)
 	@echo "------------------------------------------------------ "
 	@echo "Building source files..."
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
+
+# Make object directory
+$(OUTDIR): 
+	@echo building output directory
+	mkdir $(OUTDIR)
 
 # Tests
 $(OUTDIR)/$(TESTTARGET): $(TESTSOURCES)
