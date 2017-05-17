@@ -23,6 +23,8 @@ $(OUTDIR)/$(TARGET): $(OBJECTS)
 	$(CC) -shared -o $(OUTDIR)/$(TARGET) $(LIB) $^
 	@echo "Completed"
 	@echo "------------------------------------------------------ "
+	@echo "Making Tests..."
+	make test
 
 # Compile source into object files 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)	
