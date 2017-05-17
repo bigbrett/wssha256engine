@@ -50,4 +50,4 @@ clean:
 	@echo "Cleaning..."; 
 	$(RM) -r $(BUILDDIR) $(OUTDIR)
 
-.PHONY: clean test
+.PHONY: clean 
