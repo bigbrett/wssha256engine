@@ -7,14 +7,21 @@ LIBPREFIX := lib
 TESTDIR := test
 OUTDIR := bin
 TARGET := $(LIBPREFIX)wssha256engine.so
+TESTTARGET := test
  
 SRCEXT := c
 SOURCES := $(shell find $(SRCDIR) -type f -name "*.$(SRCEXT)")
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 
+TESTSOURCES := $(shell find $(TESTDIR) -type f -name "*.$(SRCEXT)")
+TESTCFLAGS := -g -Wall
+
 CFLAGS := -Wall -fPIC
 LIB := `pkg-config --libs openssl` -L$(LIBDIR)
 INC := -I include 
+
+
+all: $(OUTDIR)/$(TARGET) $(OUTDIR)/$(TESTTARGET)
 
 # Link object files into a shared library
 $(OUTDIR)/$(TARGET): $(OBJECTS)
@@ -23,24 +30,24 @@ $(OUTDIR)/$(TARGET): $(OBJECTS)
 	$(CC) -shared -o $(OUTDIR)/$(TARGET) $(LIB) $^
 	@echo "Completed"
 	@echo "------------------------------------------------------ "
-	@echo "Making Tests..."
-	make test
 
 # Compile source into object files 
-$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)	
+$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@echo "------------------------------------------------------ "
-	@echo "Building..."
+	@echo "Building source files..."
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
-# Clean
+# Tests
+$(OUTDIR)/$(TESTTARGET): $(TESTSOURCES)
+	@echo "Building Tests..."
+	$(CC) $(TESTCFLAGS) $^ $(INC) $(LIB) -o $(OUTDIR)/$(TESTTARGET)
+	@echo "Test Build Completed"
+	@echo "------------------------------------------------------ "
+
+## Clean
 clean:
 	@echo "Cleaning..."; 
-	@echo " $(RM) -r $(BUILDDIR) $(OUTDIR)"; $(RM) -r $(BUILDDIR) $(OUTDIR)
-#	@cd $(TESTDIR); make clean
+	$(RM) -r $(BUILDDIR) $(OUTDIR)
 
-# Tests
-test:
-	@cd $(TESTDIR); make
-
-.PHONY: clean test 
+.PHONY: clean test
