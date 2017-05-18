@@ -4,7 +4,7 @@
 projdir=$(dirname "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )")
 bindir="$projdir/bin" 
 so_path="$bindir/libwssha256engine.so"
-test_exec="$bindir/test"
+test_exec="$bindir/wssha256enginetest"
 
 echo "*******************************************"
 echo "Running test script:"
