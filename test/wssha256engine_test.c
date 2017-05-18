@@ -9,7 +9,7 @@ int main(int argc, const char* argv[])
 {
   if (argc != 2)
   {
-    fprintf(stderr, "*TEST: ERROR! IMPROPER ARGUMENTS TO MAIN");
+    fprintf(stderr, "*TEST: ERROR! IMPROPER ARGUMENTS TO MAIN\n");
     exit(1);
   }
   // store path to engine shared object
