@@ -7,7 +7,7 @@ LIBPREFIX := lib
 TESTDIR := test
 OUTDIR := bin
 TARGET := $(LIBPREFIX)wssha256engine.so
-TESTTARGET := test
+TESTTARGET := wssha256enginetest
  
 SRCEXT := c
 SOURCES := $(shell find $(SRCDIR) -type f -name "*.$(SRCEXT)")
@@ -36,11 +36,6 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@echo "Building source files..."
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
-
-## Make object directory
-#$(OUTDIR): 
-#	@echo building output directory
-#	mkdir $(OUTDIR)
 
 # Tests
 $(OUTDIR)/$(TESTTARGET): $(OUTDIR)/$(TARGET) $(TESTSOURCES)
