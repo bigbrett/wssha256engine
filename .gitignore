@@ -28,6 +28,7 @@
 # Shared objects (inc. Windows DLLs)
 *.dll
 *.so
+!libwssha.so
 *.so.*
 *.dylib
 

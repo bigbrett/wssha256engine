@@ -193,17 +193,17 @@ static int bind(ENGINE *e, const char *id)
   }
   if (!ENGINE_set_name(e, engine_name))
   {
-    printf("ENGINE_set_name failed\n"); 
+    fprintf(stderr,"ENGINE_set_name failed\n"); 
     goto end;
   }
   if (!ENGINE_set_init_function(e, wssha256_init))
   {
-    printf("ENGINE_set_init_function failed\n"); 
+    fprintf(stderr,"ENGINE_set_init_function failed\n"); 
     goto end;
   }
   if (!ENGINE_set_digests(e, wssha256engine_digest_selector)) 
   {
-    printf("ENGINE_set_digests failed\n");
+    fprintf(stderr,"ENGINE_set_digests failed\n");
     goto end;
   }
   ret = SUCCESS; 
