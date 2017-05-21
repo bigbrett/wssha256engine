@@ -2,7 +2,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdint.h>
+#include <fcntl.h>
+#include <unistd.h>
 
+#include "wssha.h"
 // Turn off this annoying warning that we don't care about 
 #pragma GCC diagnostic ignored "-Wsizeof-pointer-memaccess"
 
@@ -138,7 +142,16 @@ static int wssha256engine_digest_selector(ENGINE *e, const EVP_MD **digest, cons
 int wssha256_init(ENGINE *e)
 {
   printf("Initializing wssha256 engine...\n"); 
-  return SUCCESS;
+  if( access("/dev/wssha256char", F_OK ) != -1 ) 
+  {
+    printf("Found device!\n");
+    return 0;
+  } 
+  else 
+  {
+    printf("Couldn't find device\n");
+    return -1; 
+  }
 }
 
 
