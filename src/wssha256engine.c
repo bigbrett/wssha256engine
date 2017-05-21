@@ -82,7 +82,7 @@ static int wssha256engine_sha256_update(EVP_MD_CTX *ctx, const void *data, size_
  */
 static int wssha256engine_sha256_final(EVP_MD_CTX *ctx, unsigned char *md)
 {
-  printf("SHA256 final: sizeof(EVP_MD)= %lu\n", sizeof(EVP_MD));
+  printf("SHA256 final"); 
   memcpy(md, (unsigned char*)ctx->md_data,DIGEST_SIZE_BYTES);
   return SUCCESS;
 }
