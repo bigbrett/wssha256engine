@@ -64,7 +64,7 @@ int main(int argc, const char* argv[])
 
   // initialize engine 
 	int status = ENGINE_init(eng); 
-  if (status == 0)
+  if (status < 0)
   {
 		fprintf(stderr,"*TEST: ERROR, COULD NOT INITIALIZE ENGINE\n");
 		exit(1);
