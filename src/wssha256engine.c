@@ -151,7 +151,7 @@ static int wssha256engine_digest_selector(ENGINE *e, const EVP_MD **digest, cons
  */
 int wssha256_init(ENGINE *e)
 {
-  printf("Initializing wssha256 engine...\n"); 
+  printf("wssha256_init: Initializing wssha256 engine...\n"); 
   return sha256_init();
   //if( access("/dev/wssha256char", F_OK ) != -1 ) 
   //{
