@@ -1,7 +1,9 @@
 #include <openssl/engine.h>
 #include <openssl/ossl_typ.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <string.h>
+#include "wssha.h"
 
 static const char* engine_id = "wssha256engine";
 
