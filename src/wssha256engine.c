@@ -54,6 +54,7 @@ static EVP_MD wssha256engine_sha256_method =
  */
 static int wssha256engine_sha256_init(EVP_MD_CTX *ctx)
 {
+  printf("wssha256engine_sha256_init: initializing digest\n");
   ctx->update = &wssha256engine_sha256_update;
   printf("SHA256 algorithm context initialized\n");
   return SUCCESS;
