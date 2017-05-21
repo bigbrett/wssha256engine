@@ -11,7 +11,7 @@ TESTTARGET := wssha256enginetest
  
 SRCEXT := c
 SOURCES := $(shell find $(SRCDIR) -type f -name "*.$(SRCEXT)")
-OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
+OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o)) 
 
 TESTSOURCES := $(shell find $(TESTDIR) -type f -name "*.$(SRCEXT)")
 TESTCFLAGS := -g -Wall
@@ -26,7 +26,7 @@ all: $(OUTDIR)/$(TARGET) $(OUTDIR)/$(TESTTARGET)
 $(OUTDIR)/$(TARGET): $(OBJECTS)
 	@echo "Linking..."
 	@mkdir -p $(OUTDIR)
-	$(CC) -shared -o $(OUTDIR)/$(TARGET) $(LIB) $^
+	$(CC) -shared -o $(OUTDIR)/$(TARGET) $(LIBDIR)/libwssha.a $(LIB) $^
 	@echo "Completed"
 	@echo "------------------------------------------------------ "
 
@@ -35,7 +35,7 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@echo "------------------------------------------------------ "
 	@echo "Building source files..."
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
+	$(CC) $(CFLAGS) $(INC) -c -o $@ $< 
 
 # Tests
 $(OUTDIR)/$(TESTTARGET): $(OUTDIR)/$(TARGET) $(TESTSOURCES)
