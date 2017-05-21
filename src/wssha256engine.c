@@ -100,7 +100,6 @@ static int wssha256engine_sha256_update(EVP_MD_CTX *ctx, const void *data, size_
     fprintf(stderr,"ERROR: SHA256 algorithm failed\n");
     return FAIL;
   }
-
   ctx->md_data = digest;
   return SUCCESS;
 }
