@@ -83,13 +83,15 @@ int main(int argc, const char* argv[])
   evp_ctx = EVP_MD_CTX_create();
 
   // Compute a message digest indirectly, through the high-level API
-  printf("*TEST: Creating Digest...\n");
+  printf("*TEST: Creating Digest...");
   status = EVP_DigestInit_ex(evp_ctx, EVP_sha256(), eng);
-  printf("*TEST: Digest INIT %d\n",status);
+  printf("  Digest INIT %d\n",status);
+  printf("*TEST: Updating Digest...");
   status = EVP_DigestUpdate(evp_ctx, (unsigned char*)str, str_len);
-  printf("*TEST: Digest Update %d\n",status);
+  printf("  Digest Update %d\n",status);
+  printf("*TEST: Final Digest...");
   status = EVP_DigestFinal(evp_ctx, digest, &digest_size);
-  printf("*TEST: Digest Final %d Digest size:%d\n",status,digest_size);
+  printf("  Digest Final %d Digest size:%d\n",status,digest_size);
 
   for(int i= 0; i< digest_size; i++) 
     printf("%x", digest[i]);
