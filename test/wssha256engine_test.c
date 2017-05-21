@@ -10,7 +10,7 @@ static const char* engine_id = "wssha256engine";
 int main(int argc, const char* argv[])
 {
 
-  printf("entering engine test program...\n");
+  printf("Entering engine test program...\n");
   if (argc != 2)
   {
     fprintf(stderr, "*TEST: ERROR! IMPROPER ARGUMENTS TO MAIN\n");
