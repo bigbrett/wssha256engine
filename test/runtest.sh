@@ -13,6 +13,7 @@ echo "From project directory:"
 echo "  $projdir"
 echo "With the following command and arguments:"
 echo "  $test_exec $so_path"
+echo ""
 
 $test_exec $so_path
 

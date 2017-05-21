@@ -1,12 +1,14 @@
 #include <openssl/engine.h>
+#include <openssl/ossl_typ.h>
 #include <stdio.h>
 #include <string.h>
 
-//const char* engine_so_path = "/home/brett/Thesis/openssl_ws/wssha256engine/bin/libwssha256engine.so";
-//const char* engine_so_path = "./bin/libwssha256engine.so";
+static const char* engine_id = "wssha256engine";
 
 int main(int argc, const char* argv[])
 {
+
+  printf("entering engine test program...\n");
   if (argc != 2)
   {
     fprintf(stderr, "*TEST: ERROR! IMPROPER ARGUMENTS TO MAIN\n");
@@ -19,11 +21,16 @@ int main(int argc, const char* argv[])
 	ERR_load_crypto_strings();
 
 	// load dynamic engine support
-	ENGINE_load_dynamic(); 
+  ENGINE_load_dynamic(); 
 
 	// (copy of the) instance of a generic "dynamic" engine that will magically morph into an instance of our
 	// shared library engine once it is loaded by the LOAD command string 
 	ENGINE *eng = ENGINE_by_id("dynamic");
+  if (eng == NULL)
+  {
+    fprintf(stderr,"ERROR: Could not load engine \"dynamic\", ENGINE_by_id(\"dynamic\") == NULL\n");
+    exit(1);
+  }
 
 	// BRIEF: Specify the path to our shared library engine, set the ID, and load it.
 	// 
@@ -53,23 +60,23 @@ int main(int argc, const char* argv[])
 	// 		ENGINE_ctrl_cmd_string(e, "LOAD", NULL, 0);
 	// 		ENGINE_ctrl_cmd_string(e, "CMD_FOO", "some input data", 0);
 	ENGINE_ctrl_cmd_string(eng, "SO_PATH", engine_so_path, 0);
-	ENGINE_ctrl_cmd_string(eng, "ID", "wssha256engine", 0);
+	ENGINE_ctrl_cmd_string(eng, "ID", engine_id, 0);
 	ENGINE_ctrl_cmd_string(eng, "LOAD", NULL, 0);
 	if (eng == NULL)
 	{
-		fprintf(stderr,"*TEST: ERROR, COULD NOT LOAD ENGINE DYNAMIC\n");
+		fprintf(stderr,"*TEST: ERROR, COULD NOT LOAD ENGINE:\n\tSO_PATH = %s\n\tID = %s\n", engine_so_path, engine_id);
 		exit(1);
 	}
-	printf("Engine Loaded...\n");
+	printf("wssha256Engine successfully loaded:\n\tSO_PATH = %s\n\tID = %s\n", engine_so_path, engine_id);
 
   // initialize engine 
 	int status = ENGINE_init(eng); 
-  if (status == 0)
-  {
-		fprintf(stderr,"*TEST: ERROR, COULD NOT INITIALIZE ENGINE\n");
-		exit(1);
-  }
-    printf("*TEST: Successfuly initialized engine [%s]\n\tinit result = %d\n",ENGINE_get_name(eng), status);
+//  if (status == 0)
+//  {
+//		fprintf(stderr,"*TEST: ERROR, COULD NOT INITIALIZE ENGINE\n\tENGINE_init(eng) == %d\n",status);
+//		exit(1);
+//  }
+    printf("*TEST: Initialized engine [%s]\n\tinit result = %d\n",ENGINE_get_name(eng), status);
 
 
 	// declare string to hash, and the digest 
