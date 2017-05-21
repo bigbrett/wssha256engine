@@ -66,11 +66,11 @@ static int wssha256engine_sha256_init(EVP_MD_CTX *ctx)
 static int wssha256engine_sha256_update(EVP_MD_CTX *ctx, const void *data, size_t count)
 {
   printf("SHA256 update\n");
-  unsigned char *digest = (unsigned char*)malloc(sizeof(unsigned char) * DIGEST_SIZE_BYTES);
+  //unsigned char *digest = (unsigned char*)malloc(sizeof(unsigned char) * DIGEST_SIZE_BYTES);
   // TODO change below to actual implementation
   //memset(digest, 2, DIGEST_SIZE_BYTES);
   
-  uint32_t digest_len = DIGEST_SIZE_BYTES;
+  //uint32_t digest_len = DIGEST_SIZE_BYTES;
 	int status = 0;//sha256((uint8_t*)data, MESSAGE_SIZE_BYTES, (uint8_t*)digest, (uint32_t*)&digest_len);
 	printf("sha256 retval = %d\n",status);
 	if (status != 0)
@@ -79,7 +79,7 @@ static int wssha256engine_sha256_update(EVP_MD_CTX *ctx, const void *data, size_
 		return FAIL;
 	} 
   
-  ctx->md_data = digest;
+  //ctx->md_data = digest;
   return SUCCESS;
 }
 
