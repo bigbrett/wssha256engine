@@ -71,7 +71,7 @@ static int wssha256engine_sha256_update(EVP_MD_CTX *ctx, const void *data, size_
   //memset(digest, 2, DIGEST_SIZE_BYTES);
   
   uint32_t digest_len = DIGEST_SIZE_BYTES;
-	int status = sha256((uint8_t*)data, MESSAGE_SIZE_BYTES, (uint8_t*)digest, (uint32_t*)&digest_len);
+	int status = 0;//sha256((uint8_t*)data, MESSAGE_SIZE_BYTES, (uint8_t*)digest, (uint32_t*)&digest_len);
 	printf("sha256 retval = %d\n",status);
 	if (status != 0)
 	{
@@ -153,16 +153,6 @@ int wssha256_init(ENGINE *e)
 {
   printf("wssha256_init: Initializing wssha256 engine...\n"); 
   return sha256_init();
-  //if( access("/dev/wssha256char", F_OK ) != -1 ) 
-  //{
-  //  printf("Found device!\n");
-  //  return 0;
-  //} 
-  //else 
-  //{
-  //  printf("Couldn't find device\n");
-  //  return -1; 
-  //}
 }
 
 
