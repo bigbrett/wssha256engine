@@ -71,11 +71,11 @@ int main(int argc, const char* argv[])
 
   // initialize engine 
 	int status = ENGINE_init(eng); 
-//  if (status == 0)
-//  {
-//		fprintf(stderr,"*TEST: ERROR, COULD NOT INITIALIZE ENGINE\n\tENGINE_init(eng) == %d\n",status);
-//		exit(1);
-//  }
+  if (status == 0)
+  {
+		fprintf(stderr,"*TEST: ERROR, COULD NOT INITIALIZE ENGINE\n\tENGINE_init(eng) == %d\n",status);
+		exit(1);
+  }
     printf("*TEST: Initialized engine [%s]\n\tinit result = %d\n",ENGINE_get_name(eng), status);
 
 
@@ -91,11 +91,11 @@ int main(int argc, const char* argv[])
 
 	// Compute a message digest indirectly, through the high-level API
 	status = EVP_DigestInit_ex(evp_ctx, EVP_sha256(), eng);
-	printf("*TEST: Digest INIT %d\n",status);
+	printf("*TEST: Digest init = %d\n",status);
 	status = EVP_DigestUpdate(evp_ctx, (unsigned char*)str, str_len);
-	printf("*TEST: Digest Update %d\n",status);
+	printf("*TEST: Digest Update = %d\n",status);
 	status = EVP_DigestFinal(evp_ctx, digest, &digest_size);
-	printf("*TEST: Digest Final %d Digest size:%d\n",status,digest_size);
+	printf("*TEST: Digest Final = %d Digest size:%d\n",status,digest_size);
 
 	for(int i= 0; i< digest_size; i++) 
 		printf("%x", digest[i]);
