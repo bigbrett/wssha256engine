@@ -28,15 +28,15 @@ static const char *devicefname = "/dev/wssha256char";
  */
 int32_t sha256_init(void)
 {
-	printf("Checking for kernel module...\n");
+	printf("sha256_init: Checking for kernel module...\n");
 	if( access( devicefname, F_OK ) != -1 ) 
 	{
-		printf("Found device!\n");
+		printf("\tFound device!\n");
 		return 0;
 	} 
   else 
 	{
-		printf("Couldn't find device\n");
+		printf("\tCouldn't find device\n");
 		return -1; 
 	}
 }
