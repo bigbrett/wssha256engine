@@ -91,16 +91,15 @@ static int wssha256engine_sha256_update(EVP_MD_CTX *ctx, const void *data, size_
 {
   printf("SHA256 update\n");
   unsigned char *digest = (unsigned char*)malloc(sizeof(unsigned char) * DIGEST_SIZE_BYTES);
-  // TODO change below to actual implementation
-  //memset(digest, 2, DIGEST_SIZE_BYTES); // set digest to all 2's
-  //count = 32; 
-  int status = sha256((uint8_t*)data, MESSAGE_SIZE_BYTES, (uint8_t*)digest, (uint32_t*)&digest_len);
+  uint32_t digest_len = DIGEST_SIZE_BYTES;
+
+	int status = sha256((uint8_t*)data, 32, (uint8_t*)digest, &digest_len);
+  ctx->md_data = digest;
   if (status < 0)
   {
     fprintf(stderr,"ERROR: SHA256 algorithm failed\n");
-    return FAIL;
-  }
-  ctx->md_data = digest;
+    return -1;
+	}
   return SUCCESS;
 }
 
@@ -111,7 +110,7 @@ static int wssha256engine_sha256_update(EVP_MD_CTX *ctx, const void *data, size_
  */
 static int wssha256engine_sha256_final(EVP_MD_CTX *ctx, unsigned char *md)
 {
-  printf("SHA256 final: sizeof(EVP_MD)= %lu\n", sizeof(EVP_MD));
+  printf("SHA256 final"); 
   memcpy(md, (unsigned char*)ctx->md_data,DIGEST_SIZE_BYTES);
   return SUCCESS;
 }
@@ -174,7 +173,7 @@ static int wssha256engine_digest_selector(ENGINE *e, const EVP_MD **digest, cons
 int wssha256_init(ENGINE *e)
 {
   printf("Initializing wssha256 engine...\n"); 
-  return SUCCESS;
+  return sha256_init();
 }
 
 
