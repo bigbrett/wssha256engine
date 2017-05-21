@@ -32,7 +32,7 @@ int32_t sha256_init(void)
 	if( access( devicefname, F_OK ) != -1 ) 
 	{
 		printf("Found device!\n");
-		return 0;
+		return 1;
 	} 
   else 
 	{

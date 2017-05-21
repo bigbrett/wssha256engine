@@ -138,8 +138,7 @@ static int wssha256engine_digest_selector(ENGINE *e, const EVP_MD **digest, cons
 int wssha256_init(ENGINE *e)
 {
   printf("Initializing wssha256 engine...\n"); 
-  sha256_init();
-  return SUCCESS;
+  return sha256_init();
 }
 
 
