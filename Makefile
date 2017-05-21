@@ -17,13 +17,13 @@ TESTSOURCES := $(shell find $(TESTDIR) -type f -name "*.$(SRCEXT)")
 TESTCFLAGS := -g -Wall
 
 CFLAGS := -Wall -fPIC
-LIB := `pkg-config --libs openssl` -L$(LIBDIR) -lwssha
+LIB := `pkg-config --libs openssl` -L$(LIBDIR) # -lwssha
 INC := -I include 
 
-all: $(OUTDIR)/$(TARGET) $(OUTDIR)/$(TESTTARGET)
+all: $(OUTDIR)/$(TARGET) $(OUTDIR)/$(TESTTARGET) 
 
 # Link object files into a shared library
-$(OUTDIR)/$(TARGET): $(OBJECTS)
+$(OUTDIR)/$(TARGET): $(OBJECTS) 
 	@echo "Linking..."
 	@mkdir -p $(OUTDIR)
 	$(CC) -shared -o $(OUTDIR)/$(TARGET) $(LIB) $^

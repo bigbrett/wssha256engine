@@ -13,6 +13,7 @@
 #define FAIL 0
 #define SUCCESS 1
 #define DIGEST_SIZE_BYTES 32
+#define MESSAGE_SIZE_BYTES 256
 
 static const char *engine_id = "wssha256";
 static const char *engine_name = "A test engine for the ws sha256 hardware encryption module, on the Xilinx ZYNQ7000";
@@ -67,8 +68,17 @@ static int wssha256engine_sha256_update(EVP_MD_CTX *ctx, const void *data, size_
   printf("SHA256 update\n");
   unsigned char *digest = (unsigned char*)malloc(sizeof(unsigned char) * DIGEST_SIZE_BYTES);
   // TODO change below to actual implementation
-  memset(digest, 2, DIGEST_SIZE_BYTES);
-  //count = 32; 
+  //memset(digest, 2, DIGEST_SIZE_BYTES);
+  
+  uint32_t digest_len = DIGEST_SIZE_BYTES;
+	int status = sha256((uint8_t*)data, MESSAGE_SIZE_BYTES, (uint8_t*)digest, (uint32_t*)&digest_len);
+	printf("sha256 retval = %d\n",status);
+	if (status != 0)
+	{
+		fprintf(stderr,"ERROR: SHA256 algorithm failed\n");
+		return FAIL;
+	} 
+  
   ctx->md_data = digest;
   return SUCCESS;
 }
@@ -142,16 +152,17 @@ static int wssha256engine_digest_selector(ENGINE *e, const EVP_MD **digest, cons
 int wssha256_init(ENGINE *e)
 {
   printf("Initializing wssha256 engine...\n"); 
-  if( access("/dev/wssha256char", F_OK ) != -1 ) 
-  {
-    printf("Found device!\n");
-    return 0;
-  } 
-  else 
-  {
-    printf("Couldn't find device\n");
-    return -1; 
-  }
+  return sha256_init();
+  //if( access("/dev/wssha256char", F_OK ) != -1 ) 
+  //{
+  //  printf("Found device!\n");
+  //  return 0;
+  //} 
+  //else 
+  //{
+  //  printf("Couldn't find device\n");
+  //  return -1; 
+  //}
 }
 
 
