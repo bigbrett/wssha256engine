@@ -5,7 +5,11 @@
 #include <string.h>
 #include "wssha.h"
 
+
 static const char* engine_id = "wssha256engine";
+static const char correct_digest[32] = {0x6c,0x50,0x76,0x06,0x1b,0x0c,0xc3,0x1f,0x39,0x87,0x76,0x7c,0x06,0x2c,0xd1,0x33,0xab,0x13,0x07,0x34,0xa0,0xb8,0x18,0x4c,0x65,0xd0,0x65,0x88,0x18,0x23,0xb9,0x92};
+
+static const char str[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUV";
 
 int main(int argc, const char* argv[])
 {
@@ -99,9 +103,31 @@ int main(int argc, const char* argv[])
 	status = EVP_DigestFinal(evp_ctx, digest, &digest_size);
 	printf("*TEST: Digest Final = %d Digest size:%d\n",status,digest_size);
 
+  printf("\nRecieved digest = ");
 	for(int i= 0; i< digest_size; i++) 
 		printf("%x", digest[i]);
 	printf("\n");
+
+  // test digest against precomputed result
+	int errcnt=0;
+	for (int i=0; i < 32; i++)
+	{
+		if (digest[i] != correct_digest[i])
+		{
+			errcnt++;
+			printf("\t****Error, incorrect digest value at element %i!\n",i);
+		}
+	}
+
+	// report erroneous values
+	if (errcnt == 0)
+		printf("****Test status: SUCCESS\n\n");
+	else 
+	{
+		printf("****Test vector status: FAILED\n\n");
+		return -1; 
+	}  
+
 	EVP_MD_CTX_destroy(evp_ctx); 
 
 	return 0; 
