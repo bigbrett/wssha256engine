@@ -73,7 +73,7 @@ int main(int argc, const char* argv[])
 
   // initialize engine 
 	int status = ENGINE_init(eng); 
-  if (status == 0)
+  if (status < 0)
   {
 		fprintf(stderr,"*TEST: ERROR, COULD NOT INITIALIZE ENGINE\n\tENGINE_init(eng) == %d\n",status);
 		exit(1);
@@ -82,7 +82,7 @@ int main(int argc, const char* argv[])
 
 
 	// declare string to hash, and the digest 
-	char *str = "Hello, World!";
+  char* str = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUV";
 	unsigned char digest[32]; 
 	int str_len = strlen(str);
 	unsigned int digest_size = -1; 
