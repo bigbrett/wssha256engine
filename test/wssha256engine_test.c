@@ -7,6 +7,7 @@
 
 int main(int argc, const char* argv[])
 {
+  printf("Beginning test (static lib)\n");
   if (argc != 2)
   {
     fprintf(stderr, "*TEST: ERROR! IMPROPER ARGUMENTS TO MAIN\n");
