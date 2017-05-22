@@ -22,7 +22,8 @@ You can verify that the engine can be loaded using:
 **Note** You may get an error complaining that `ERROR: Digest is empty! (NID = 0)`. I'm investigating the cause of this, however the engine still loads properly and it does not seem to affect the functionality of the test program 
 
 ## Testing the engine
-A **quick and easy** test goes like this, where the resultant digest values should be identical: 
+### Quck test
+A quick and easy test goes like this, where the resultant digest values should be identical: 
 
     $ teststr="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel nulla malesuada, dictum diam ut, semper sapien. Etiam faucibus porttitor tristique. Vestibulum id magna sed velit ornare varius vitae nec erat. Mauris dui arcu, pulvinar eu pretium posuere."
     
@@ -34,10 +35,17 @@ A **quick and easy** test goes like this, where the resultant digest values shou
 
 (**Note:** the engine does not yet support variable length message data. As such, the test below will only work for 256-byte messages. Internally, the message is not truncated to the nearest 64-byte block, but instead an entire 256-byte block is hashed, with bytes after the end of data padded with zeros. Therefore, a message shorter than 256 bytes will currently hash incorrectly: [see here](https://crypto.stackexchange.com/questions/46996/openssl-sha1-message-digest-not-matching-with-nist-vector-input))
 
-A **more advanced** test, using a c test program, can be conducted like this (see test/wssha256engine_test.c for implementation): 
+### Custom Test
+A more advanced test, using a c test program, can be conducted like this (see test/wssha256engine_test.c for implementation): 
     
     $ make test
     $ source test/runtest.sh
 
 NOTE: the runtest.sh script must remain in the test directory, but should be able to be called from anywhere
     
+### OpenSSL speed test
+The speed of the engine's digest computation can be tested using the built-in openSSL speed command (making sure to explicitly specify using the EVP API for the message digest)
+
+    $ openssl speed -evp sha256 -engine /path/to/libwssha256engine.so
+
+
