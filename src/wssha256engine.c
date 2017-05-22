@@ -143,14 +143,21 @@ static int wssha256engine_sha256_cleanup(EVP_MD_CTX *ctx)
 /* 
  * Digest selection function: tells openSSL that whenever a SHA256 digest is 
  * reauested to use our engine implementation 
+ * 
+ * OpenSSL calls this function in the following ways:
+ *   1. with digest being NULL. In this case, *nids is expected to be assigned a 
+ *		  zero-terminated array of NIDs and the call returns with the number of available NIDs. 
+ * 			OpenSSL uses this to determine what digests are supported by this engine.
+ * 	 2. with digest being non-NULL. In this case, *digest is expected to be assigned the pointer 
+ * 			to the EVP_MD structure corresponding to the NID given by nid. The call returns with 1 if 
+ * 			the request NID was one supported by this engine, otherwise returns 0.
  */
 static int wssha256engine_digest_selector(ENGINE *e, const EVP_MD **digest, const int **nids, int nid)
 {
+	// if digest is null, return 0-terminated array of supported NIDs
 	if (!digest)
   {
     *nids = wssha256_digest_ids;
-    //printf("ERROR: Digest is empty! (NID = %d)\n",nid);
-    //return FAIL;
     int retnids = sizeof(wssha256_digest_ids - 1) / sizeof(wssha256_digest_ids[0]);
     printf("wssha256engine: digest nids requested...returning [%d]\n",retnids);
     return retnids;
@@ -158,9 +165,10 @@ static int wssha256engine_digest_selector(ENGINE *e, const EVP_MD **digest, cons
 
   printf("Digest NID=%d requested\n",nid);
 
+	// if digest is supported, select our implementation, otherwise set to null and fail 
   if (nid == NID_sha256)
-  {
-    *digest = &wssha256engine_sha256_method; // select our implementation 
+  { // select our hardware digest implementation 
+    *digest = &wssha256engine_sha256_method; 
     return SUCCESS;
   }
   else
