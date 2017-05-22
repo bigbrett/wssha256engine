@@ -149,8 +149,11 @@ static int wssha256engine_digest_selector(ENGINE *e, const EVP_MD **digest, cons
 	if (!digest)
   {
     *nids = wssha256_digest_ids;
-    printf("ERROR: Digest is empty! (NID = %d)\n",nid);
-    return FAIL;
+    //printf("ERROR: Digest is empty! (NID = %d)\n",nid);
+    //return FAIL;
+    int retnids = sizeof(wssha256_digest_ids - 1) / sizeof(wssha256_digest_ids[0]);
+    printf("wssha256engine: digest nids requested...returning [%d]\n",retnids);
+    return retnids;
   }
 
   printf("Digest NID=%d requested\n",nid);
