@@ -24,13 +24,15 @@ You can verify that the engine can be loaded using:
 ## Testing the engine
 A **quick and easy** test goes like this, where the resultant digest values should be identical: 
 
-(**NOTE THE SIMPLE TEST DOES NOT YET WORK, FOR SOME REASON. RUN THE ADVANCED TEST INSTEAD**)
+(**Note:** the engine does not yet support variable length message data. As such, the test below will only work for 256-byte messages. Internally, the message is not truncated to the nearest 64-byte block, but instead an entire 256-byte block is hashed, with bytes after the end of data padded with zeros. Therefore, a message shorter than 256 bytes will currently hash incorrectly: [see here](https://crypto.stackexchange.com/questions/46996/openssl-sha1-message-digest-not-matching-with-nist-vector-input))
 
-    $ echo "Hello, Alice and Bob!" | openssl dgst -engine `pwd`/bin/libwssha256engine.so -sha256
-      (stdin)= 67bafe3f31a01641bb043233a57f7d90f68052db3d11ef96f76174cb660d5102
+    $ teststr="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel nulla malesuada, dictum diam ut, semper sapien. Etiam faucibus porttitor tristique. Vestibulum id magna sed velit ornare varius vitae nec erat. Mauris dui arcu, pulvinar eu pretium posuere."
     
-    $ echo "Hello, Alice and Bob!" | openssl dgst -sha256
-      (stdin)= 67bafe3f31a01641bb043233a57f7d90f68052db3d11ef96f76174cb660d5102
+    $ echo $teststr | openssl dgst -engine /full/path/to/libwssha256engine.so -sha256
+      (stdin)= 28ed684090a0df4a70fd2ac9249a5cb13ddda6f34055148b739cd3b668445cf9
+    
+    $ echo $teststr | openssl dgst -sha256
+      (stdin)= 28ed684090a0df4a70fd2ac9249a5cb13ddda6f34055148b739cd3b668445cf9
 
 A **more advanced** test, using a c test program, can be conducted like this (see test/wssha256engine_test.c for implementation): 
     
