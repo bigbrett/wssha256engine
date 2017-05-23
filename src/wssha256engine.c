@@ -79,7 +79,6 @@ static int wssha256engine_sha256_init(EVP_MD_CTX *ctx)
     fprintf(stderr,"ERROR: SHA256 algorithm context could not be initialized\n");
     return FAIL;
   }
-  printf("SHA256 algorithm context initialized\n");
   return SUCCESS;
 }
 
@@ -89,10 +88,10 @@ static int wssha256engine_sha256_init(EVP_MD_CTX *ctx)
  */
 static int wssha256engine_sha256_update(EVP_MD_CTX *ctx, const void *data, size_t count)
 {
-  printf("SHA256 update\n");
   unsigned char *digest = (unsigned char*)malloc(sizeof(unsigned char) * DIGEST_SIZE_BYTES);
   uint32_t digest_len = DIGEST_SIZE_BYTES;
 
+  // compute digest and copy into context structure
 	int status = sha256((uint8_t*)data, 32, (uint8_t*)digest, &digest_len);
   ctx->md_data = digest;
   if (status < 0)
@@ -106,11 +105,10 @@ static int wssha256engine_sha256_update(EVP_MD_CTX *ctx, const void *data, size_
 
 /*
  * Digest final update function 
- * Copies ctx->md_data into output buffer (TODO this is redundant)
+ * Copies ctx->md_data into output buffer (TODO fix this, it is redundant)
  */
 static int wssha256engine_sha256_final(EVP_MD_CTX *ctx, unsigned char *md)
 {
-  printf("SHA256 final"); 
   memcpy(md, (unsigned char*)ctx->md_data,DIGEST_SIZE_BYTES);
   return SUCCESS;
 }
@@ -121,7 +119,6 @@ static int wssha256engine_sha256_final(EVP_MD_CTX *ctx, unsigned char *md)
  */
 int wssha256engine_sha256_copy(EVP_MD_CTX *to, const EVP_MD_CTX *from)
 {
-    printf("Copy SHA256\n");
     if (to->md_data && from->md_data) 
         memcpy(to->md_data, from->md_data,sizeof(from->md_data));
     return SUCCESS;
@@ -133,7 +130,6 @@ int wssha256engine_sha256_copy(EVP_MD_CTX *to, const EVP_MD_CTX *from)
  */
 static int wssha256engine_sha256_cleanup(EVP_MD_CTX *ctx) 
 {
-    printf("SHA256 cleanup\n");
     if (ctx->md_data)
         memset(ctx->md_data, 0, 32);
     return SUCCESS;
@@ -159,11 +155,8 @@ static int wssha256engine_digest_selector(ENGINE *e, const EVP_MD **digest, cons
   {
     *nids = wssha256_digest_ids;
     int retnids = sizeof(wssha256_digest_ids - 1) / sizeof(wssha256_digest_ids[0]);
-    printf("wssha256engine: digest nids requested...returning [%d]\n",retnids);
     return retnids;
   }
-
-  printf("Digest NID=%d requested\n",nid);
 
 	// if digest is supported, select our implementation, otherwise set to null and fail 
   if (nid == NID_sha256)
@@ -183,7 +176,6 @@ static int wssha256engine_digest_selector(ENGINE *e, const EVP_MD **digest, cons
  */
 int wssha256_init(ENGINE *e)
 {
-  printf("Initializing wssha256 engine...\n"); 
   return sha256_init();
 }
 
