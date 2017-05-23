@@ -24,26 +24,21 @@
 static const char *devicefname = "/dev/wssha256char";
 
 /*
- *
+ * Initialization function to check if device file exists 
+ * and is read/writeable
  */
 int32_t sha256_init(void)
 {
-	printf("Checking for kernel module...\n");
-	if( access( devicefname, F_OK ) != -1 ) 
-	{
-		printf("Found device!\n");
-		return 1;
-	} 
-  else 
-	{
-		printf("Couldn't find device\n");
+	if( access( devicefname, F_OK ) == -1 ) {
+		perror("Couldn't find device\n");
 		return -1; 
 	}
+		return 1;
 }
 
 
 /*
- * 
+ * main sha256 digest function 
  */
 int32_t sha256(uint8_t *datap, uint64_t datalen,uint8_t *digestp, uint32_t *digest_lenp)
 {
