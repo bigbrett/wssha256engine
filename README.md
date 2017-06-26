@@ -19,8 +19,6 @@ You can verify that the engine can be loaded using:
     Loaded: (wssha256engine) A test engine for the ws sha256 hardware encryption module, on the Xilinx ZYNQ7000
         [ available ]
 
-**Note** You may get an error complaining that `ERROR: Digest is empty! (NID = 0)`. I'm investigating the cause of this, however the engine still loads properly and it does not seem to affect the functionality of the test program 
-
 ## Testing the engine
 ### Quck test
 A quick and easy test goes like this, where the resultant digest values should be identical: 
