@@ -47,7 +47,7 @@ static const uint32_t digest_len = DIGEST_SIZE_BYTES;
 //    int block_size;
 //    int ctx_size;               /* how big does the ctx->md_data need to be */
 //    int (*md_ctrl) (EVP_MD_CTX *ctx, int cmd, int p1, void *p2); /* control function */
-//} 
+//}  /* EVP_MD */
 static EVP_MD wssha256engine_sha256_method = 
 {
     NID_sha256, // openSSL algorithm numerical ID
