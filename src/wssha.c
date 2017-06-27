@@ -54,7 +54,7 @@ int32_t sha256(uint8_t *datap, uint64_t datalen,uint8_t *digestp, uint32_t *dige
 	}
 
 	// send the test vector to LKM
-	ret = write(fd, datap, SHA256_MSG_SIZE); // TODO why are we writing SHA256_MSG_SIZE? Shouldn't we be writing datalen? 
+	ret = write(fd, datap, datalen); // TODO why are we writing SHA256_MSG_SIZE? Shouldn't we be writing datalen? 
 	if (ret < 0){
 		perror("sha256: Failed to write the message to the device.");
 		return errno;
