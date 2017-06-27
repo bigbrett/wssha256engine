@@ -54,15 +54,11 @@ int32_t sha256(uint8_t *datap, uint64_t datalen,uint8_t *digestp, uint32_t *dige
 	}
 
 	// send the test vector to LKM
-	ret = write(fd, datap, SHA256_MSG_SIZE);
+	ret = write(fd, datap, SHA256_MSG_SIZE); // TODO why are we writing SHA256_MSG_SIZE? Shouldn't we be writing datalen? 
 	if (ret < 0){
 		perror("sha256: Failed to write the message to the device.");
 		return errno;
 	}
-
-	// TODO THIS SLEEP IS NECESSARY TO ENSURE THERE IS ENOUGH TIME FOR THE HW DEVICE TO COMPLETE.
-	// IT SHOULD BE REPLACED WITH A READY CHECK, TO BE IMPLEMENTED IN THE DRIVER USING IOCTL
-	sleep(1);
 
 	// read back the response from the LKM and print
 	ret = read(fd, digestp, SHA256_DGST_SIZE);        

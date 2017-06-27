@@ -92,7 +92,7 @@ static int wssha256engine_sha256_update(EVP_MD_CTX *ctx, const void *data, size_
     uint32_t digest_len = DIGEST_SIZE_BYTES;
 
     // compute digest and copy into context structure
-    int status = sha256((uint8_t*)data, 32, (uint8_t*)digest, &digest_len);
+    int status = sha256((uint8_t*)data, 32, (uint8_t*)digest, &digest_len); // TODO should the digest length really be 32? 
     ctx->md_data = digest;
     if (status < 0)
     {
