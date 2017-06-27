@@ -1,12 +1,11 @@
 /**
  * @file   testwssha256kern.c
- * @author Derek Molloy
+ * @author Brett Nicholas
  * @date   7 April 2015
  * @version 0.1
  * @brief  A Linux user space program that communicates with the wssha256kern.c LKM. It passes a
  * string to the LKM and reads the response from the LKM. For this example to work the device
  * must be called /dev/wssha256char.
- * @see http://www.derekmolloy.ie/ for a full description and follow-up descriptions.
  */
 #include <stdio.h>
 #include <stdlib.h>

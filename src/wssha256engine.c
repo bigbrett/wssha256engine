@@ -73,13 +73,13 @@ static EVP_MD wssha256engine_sha256_method =
  */
 static int wssha256engine_sha256_init(EVP_MD_CTX *ctx)
 {
-  ctx->update = &wssha256engine_sha256_update;
-  if (sha256_init() < 0)
-  {
-    fprintf(stderr,"ERROR: SHA256 algorithm context could not be initialized\n");
-    return FAIL;
-  }
-  return SUCCESS;
+    ctx->update = &wssha256engine_sha256_update;
+    if (sha256_init() < 0)
+    {
+        fprintf(stderr,"ERROR: SHA256 algorithm context could not be initialized\n");
+        return FAIL;
+    }
+    return SUCCESS;
 }
 
 
@@ -88,18 +88,18 @@ static int wssha256engine_sha256_init(EVP_MD_CTX *ctx)
  */
 static int wssha256engine_sha256_update(EVP_MD_CTX *ctx, const void *data, size_t count)
 {
-  unsigned char *digest = (unsigned char*)malloc(sizeof(unsigned char) * DIGEST_SIZE_BYTES);
-  uint32_t digest_len = DIGEST_SIZE_BYTES;
+    unsigned char *digest = (unsigned char*)malloc(sizeof(unsigned char) * DIGEST_SIZE_BYTES);
+    uint32_t digest_len = DIGEST_SIZE_BYTES;
 
-  // compute digest and copy into context structure
-	int status = sha256((uint8_t*)data, 32, (uint8_t*)digest, &digest_len);
-  ctx->md_data = digest;
-  if (status < 0)
-  {
-    fprintf(stderr,"ERROR: SHA256 algorithm failed\n");
-    return -1;
-	}
-  return SUCCESS;
+    // compute digest and copy into context structure
+    int status = sha256((uint8_t*)data, 32, (uint8_t*)digest, &digest_len);
+    ctx->md_data = digest;
+    if (status < 0)
+    {
+        fprintf(stderr,"ERROR: SHA256 algorithm failed\n");
+        return -1;
+    }
+    return SUCCESS;
 }
 
 
@@ -109,8 +109,8 @@ static int wssha256engine_sha256_update(EVP_MD_CTX *ctx, const void *data, size_
  */
 static int wssha256engine_sha256_final(EVP_MD_CTX *ctx, unsigned char *md)
 {
-  memcpy(md, (unsigned char*)ctx->md_data,DIGEST_SIZE_BYTES);
-  return SUCCESS;
+    memcpy(md, (unsigned char*)ctx->md_data,DIGEST_SIZE_BYTES);
+    return SUCCESS;
 }
 
 
@@ -150,25 +150,25 @@ static int wssha256engine_sha256_cleanup(EVP_MD_CTX *ctx)
  */
 static int wssha256engine_digest_selector(ENGINE *e, const EVP_MD **digest, const int **nids, int nid)
 {
-	// if digest is null, return 0-terminated array of supported NIDs
-	if (!digest)
-  {
-    *nids = wssha256_digest_ids;
-    int retnids = sizeof(wssha256_digest_ids - 1) / sizeof(wssha256_digest_ids[0]);
-    return retnids;
-  }
+    // if digest is null, return 0-terminated array of supported NIDs
+    if (!digest)
+    {
+        *nids = wssha256_digest_ids;
+        int retnids = sizeof(wssha256_digest_ids - 1) / sizeof(wssha256_digest_ids[0]);
+        return retnids;
+    }
 
-	// if digest is supported, select our implementation, otherwise set to null and fail 
-  if (nid == NID_sha256)
-  { // select our hardware digest implementation 
-    *digest = &wssha256engine_sha256_method; 
-    return SUCCESS;
-  }
-  else
-  {
-    *digest = NULL;
-    return FAIL;
-  }
+    // if digest is supported, select our implementation, otherwise set to null and fail 
+    if (nid == NID_sha256)
+    { // select our hardware digest implementation 
+        *digest = &wssha256engine_sha256_method; 
+        return SUCCESS;
+    }
+    else
+    {
+        *digest = NULL;
+        return FAIL;
+    }
 }
 
 /*
@@ -176,7 +176,7 @@ static int wssha256engine_digest_selector(ENGINE *e, const EVP_MD **digest, cons
  */
 int wssha256_init(ENGINE *e)
 {
-  return sha256_init();
+    return sha256_init();
 }
 
 
@@ -185,32 +185,32 @@ int wssha256_init(ENGINE *e)
  */
 static int bind(ENGINE *e, const char *id)
 {
-  int ret = FAIL;
+    int ret = FAIL;
 
-  if (!ENGINE_set_id(e, engine_id))
-  {
-    fprintf(stderr, "ENGINE_set_id failed\n");
-    goto end;
-  }
-  if (!ENGINE_set_name(e, engine_name))
-  {
-    fprintf(stderr,"ENGINE_set_name failed\n"); 
-    goto end;
-  }
-  if (!ENGINE_set_init_function(e, wssha256_init))
-  {
-    fprintf(stderr,"ENGINE_set_init_function failed\n"); 
-    goto end;
-  }
-  if (!ENGINE_set_digests(e, wssha256engine_digest_selector)) 
-  {
-    fprintf(stderr,"ENGINE_set_digests failed\n");
-    goto end;
-  }
-  ret = SUCCESS; 
+    if (!ENGINE_set_id(e, engine_id))
+    {
+        fprintf(stderr, "ENGINE_set_id failed\n");
+        goto end;
+    }
+    if (!ENGINE_set_name(e, engine_name))
+    {
+        fprintf(stderr,"ENGINE_set_name failed\n"); 
+        goto end;
+    }
+    if (!ENGINE_set_init_function(e, wssha256_init))
+    {
+        fprintf(stderr,"ENGINE_set_init_function failed\n"); 
+        goto end;
+    }
+    if (!ENGINE_set_digests(e, wssha256engine_digest_selector)) 
+    {
+        fprintf(stderr,"ENGINE_set_digests failed\n");
+        goto end;
+    }
+    ret = SUCCESS; 
 end: 
-  return ret; 
+    return ret; 
 }
 
-IMPLEMENT_DYNAMIC_BIND_FN(bind)
+    IMPLEMENT_DYNAMIC_BIND_FN(bind)
 IMPLEMENT_DYNAMIC_CHECK_FN()
