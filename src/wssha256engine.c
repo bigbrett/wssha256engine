@@ -92,7 +92,7 @@ static int wssha256engine_sha256_update(EVP_MD_CTX *ctx, const void *data, size_
     uint32_t digest_len = DIGEST_SIZE_BYTES;
 
     // compute digest and copy into context structure
-    int status = sha256((uint8_t*)data, count, (uint8_t*)digest, &digest_len); // TODO should the data length really be 32? 
+    int status = sha256((uint8_t*)data, count, (uint8_t*)digest, &digest_len); 
     ctx->md_data = digest;
     if (status < 0)
     {
@@ -105,7 +105,7 @@ static int wssha256engine_sha256_update(EVP_MD_CTX *ctx, const void *data, size_
 
 /*
  * Digest final update function 
- * Copies ctx->md_data into output buffer (TODO fix this, it is redundant)
+ * Copies ctx->md_data into output buffer 
  */
 static int wssha256engine_sha256_final(EVP_MD_CTX *ctx, unsigned char *md)
 {
