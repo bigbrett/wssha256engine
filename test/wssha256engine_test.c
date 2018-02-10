@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+#include <time.h>
+
 #include "wssha.h"
 
 
@@ -94,13 +96,23 @@ int main(int argc, const char* argv[])
     EVP_MD_CTX *evp_ctx;
     evp_ctx = EVP_MD_CTX_create();
 
+    // GET TIME
+    struct timespec start, end;
+    uint64_t telapsed;
+    clock_gettime(CLOCK_MONOTONIC, &start);
+
     // Compute a message digest indirectly, through the high-level API
     status = EVP_DigestInit_ex(evp_ctx, EVP_sha256(), eng);
-    printf("*TEST: Digest init = %d\n",status);
+    //printf("*TEST: Digest init = %d\n",status);
     status = EVP_DigestUpdate(evp_ctx, (unsigned char*)str, str_len);
-    printf("*TEST: Digest Update = %d\n",status);
+    //printf("*TEST: Digest Update = %d\n",status);
     status = EVP_DigestFinal(evp_ctx, digest, &digest_size);
-    printf("*TEST: Digest Final = %d Digest size:%d\n",status,digest_size);
+    //printf("*TEST: Digest Final = %d Digest size:%d\n",status,digest_size);
+    
+    clock_gettime(CLOCK_MONOTONIC, &end);
+    telapsed = 1000000000L * (end.tv_sec - start.tv_sec) + end.tv_nsec-start.tv_nsec;
+    printf("\n****elapsed time = %llu nanoseconds\n\n", (long long unsigned int) telapsed);
+    
 
     printf("\nRecieved digest = ");
     for(int i= 0; i< digest_size; i++) 
